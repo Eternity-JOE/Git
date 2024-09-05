@@ -1,0 +1,231 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{graphicx}
+\usepackage{listings} % 引入代码高亮包
+\usepackage{geometry} % 页面边距设置
+\geometry{a4paper, margin=1in}
+\usepackage{fancyhdr} % 页眉和页脚设置
+\usepackage{hyperref} % 插入超链接
+\usepackage{tcolorbox} % 创建框架
+\usepackage{pgfplots} % 绘制图形
+\usepackage{media9} % 插入视频
+\usepackage{xcolor} % 文本颜色
+\usepackage{soul} % 高亮文本
+\usepackage{float}
+
+\title{Vim与Shell实验报告}
+\author{乔宇恒}
+\date{\today}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{1.png}
+    \end{figure}
+    \vspace*{1in} % 顶部空白
+    
+    \Huge
+    \textbf{Vim与Shell实验报告} % 标题
+    
+    \vspace{1in} % 标题与作者之间的间距
+    
+    \Large
+    \songti 
+    姓名：乔宇恒
+    \\学号：23030021059
+    
+    \vspace{1in} % 作者与日期之间的间距
+    
+    \Large
+    \today 
+    
+    \vfill % 使下面的内容向页面底部对齐
+
+    \thispagestyle{empty} % 去除封面页的页码
+\end{titlepage}
+
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+\section{Vim基础操作}
+
+\subsection{启动Vim}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{屏幕截图 2024-09-05 235833.png}
+    \caption{启动 Vim}
+    \label{fig:start_vim}
+\end{figure}
+
+\subsection{退出Vim}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-05 235854.png}
+    \caption{退出 Vim}
+    \label{fig:exit_vim}
+\end{figure}
+
+\subsection{打开文件}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 000903.png}
+    \caption{打开文件}
+    \label{fig:open_file}
+\end{figure}
+
+\subsection{插入模式}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 002556.png}
+    \caption{插入模式}
+    \label{fig:insert_mode}
+\end{figure}
+
+\subsection{可视模式}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 002742.png}
+    \caption{可视模式}
+    \label{fig:visual_mode}
+\end{figure}
+
+\subsection{命令模式}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 002742.png}
+    \caption{命令模式}
+    \label{fig:command_mode}
+\end{figure}
+
+\subsection{保存文件}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 003042.png}
+    \caption{保存文件}
+    \label{fig:save_file}
+\end{figure}
+
+\subsection{保存并退出}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 003357.png}
+    \caption{保存并退出}
+    \label{fig:save_and_exit}
+\end{figure}
+
+\subsection{强制退出}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 003453.png}
+    \caption{强制退出}
+    \label{fig:force_exit}
+\end{figure}
+
+\newpage
+\subsection{复制（在可视模式下）}
+\begin{lstlisting}
+按 v 选择文本，然后按 y 复制选中的文本。
+\end{lstlisting}
+
+\subsection{剪切（在可视模式下）}
+\begin{lstlisting}
+按 v 选择文本，然后按 d 剪切选中的文本。
+\end{lstlisting}
+
+\subsection{粘贴}
+\begin{lstlisting}
+按 p 在光标位置粘贴剪切或复制的文本。
+\end{lstlisting}
+
+
+\newpage
+\section{Shell基础操作}
+\subsection{列出目录内容}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{屏幕截图 2024-09-06 005138.png}
+    \caption{列出目录内容}
+\end{figure}
+
+\subsection{创建目录}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 005519.png}
+    \caption{创建目录}
+\end{figure}
+
+\subsection{删除目录}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 005653.png}
+    \caption{删除目录}
+\end{figure}
+
+\subsection{删除文件}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 005800.png}
+    \caption{删除文件}
+\end{figure}
+
+\subsection{查看文件内容}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 010027.png}
+    \caption{查看文件内容}
+\end{figure}
+
+\subsection{查看文件权限}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 010132.png}
+    \caption{查看文件权限}
+\end{figure}
+
+\subsection{更改文件权限}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 010307.png}
+    \caption{更改文件权限}
+\end{figure}
+
+\subsection{更改文件所有者}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 010429.png}
+    \caption{更改文件所有者}
+\end{figure}
+
+\subsection{查找文件}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-06 010616.png}
+    \caption{查找文件}
+\end{figure}
+
+\newpage
+\subsection{创建文件}
+\begin{lstlisting}
+touch newfile
+\end{lstlisting}
+
+\subsection{查看当前目录}
+\begin{lstlisting}
+pwd
+\end{lstlisting}
+
+\subsection{查看系统进程}
+\begin{lstlisting}
+ps aux
+\end{lstlisting}
+
+
+\newpage
+\section{Github网址}
+\href{https://github.com/Eternity-JOE/Git}{https://github.com/Eternity-JOE/Git}
+
+\end{document}
