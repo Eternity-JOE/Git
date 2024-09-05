@@ -1,0 +1,349 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{graphicx}
+\usepackage{listings} % 引入代码高亮包
+\usepackage{geometry} % 页面边距设置
+\geometry{a4paper, margin=1in}
+\usepackage{fancyhdr} % 页眉和页脚设置
+\usepackage{hyperref} % 插入超链接
+\usepackage{tcolorbox} % 创建框架
+\usepackage{pgfplots} % 绘制图形
+\usepackage{media9} % 插入视频
+\usepackage{xcolor} % 文本颜色
+\usepackage{soul} % 高亮文本
+
+\title{Git与Latex实验报告}
+\author{乔宇恒}
+\date{\today}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{1.png}
+    \end{figure}
+    \vspace*{1in} % 顶部空白
+    
+    \Huge
+    \textbf{Git与Latex实验报告} % 标题
+    
+    \vspace{1in} % 标题与作者之间的间距
+    
+    \Large
+    \songti 
+    姓名：乔宇恒
+    \\学号：23030021059
+    
+    \vspace{1in} % 作者与日期之间的间距
+    
+    \Large
+    \today 
+    
+    \vfill % 使下面的内容向页面底部对齐
+
+    \thispagestyle{empty} % 去除封面页的页码
+\end{titlepage}
+
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+\section{Git}
+\subsection{初始化Git仓库}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{屏幕截图 2024-08-30 004611.png}
+\end{figure}
+
+\subsection{克隆一个现有的 Git 仓库}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{屏幕截图 2024-08-30 005446.png}
+\end{figure}
+
+\subsection{检查当前仓库状态}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{屏幕截图 2024-08-30 005826.png}
+\end{figure}
+
+\subsection{添加文件到暂存区}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{屏幕截图 2024-08-30 010043.png}
+\end{figure}
+
+\subsection{添加 GitHub 远程仓库}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{屏幕截图 2024-08-30 011821.png}
+\end{figure}
+
+\subsection{检查远程仓库是否添加成功}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{屏幕截图 2024-08-30 012028.png}
+\end{figure}
+
+\subsection{提交暂存区的更改}
+\begin{lstlisting}
+git commit -m "Commit message"
+\end{lstlisting}
+
+\subsection{查看提交历史}
+\begin{lstlisting}
+git log 
+\end{lstlisting}
+
+\subsection{查看当前分支}
+\begin{lstlisting}
+git branch
+\end{lstlisting}
+
+\subsection{创建新分支}
+\begin{lstlisting}
+git branch <branch name>
+\end{lstlisting}
+
+\subsection{切换到指定分支}
+\begin{lstlisting}
+git checkout -b <branch name>
+\end{lstlisting}
+
+\subsection{查看简洁的提交历史}
+\begin{lstlisting}
+git log --oneline
+\end{lstlisting}
+
+\subsection{查看更改内容}
+\begin{lstlisting}
+git diff
+\end{lstlisting}
+
+\subsection{查看暂存区和工作区的差异}
+\begin{lstlisting}
+git diff --cached
+\end{lstlisting}
+
+\subsection{合并分支}
+\begin{lstlisting}
+git merge <branch name>
+\end{lstlisting}
+
+\subsection{删除本地分支}
+\begin{lstlisting}
+git branch -d <branch name>
+\end{lstlisting}
+
+\subsection{强制删除本地分支}
+\begin{lstlisting}
+git branch -D <branch name>
+\end{lstlisting}
+
+\subsection{查看远程分支}
+\begin{lstlisting}
+git branch -r
+\end{lstlisting}
+
+\subsection{删除远程分支}
+\begin{lstlisting}
+git push origin --delete <branch name>
+\end{lstlisting}
+
+\subsection{查看远程仓库}
+\begin{lstlisting}
+git remote -v
+\end{lstlisting}
+
+\subsection{推送更改到远程仓库}
+\begin{lstlisting}
+git push origin <branch name>
+\end{lstlisting}
+
+\subsection{拉取远程更改}
+\begin{lstlisting}
+git pull origin <branch name>
+\end{lstlisting}
+
+\subsection{从远程仓库拉取所有分支}
+\begin{lstlisting}
+git fetch --all
+\end{lstlisting}
+
+\subsection{查看所有标签}
+\begin{lstlisting}
+git tag
+\end{lstlisting}
+
+\newpage
+\section{LaTeX 基础操作}
+\subsection{文档开始和结束}
+\begin{lstlisting}[language=TeX]
+\documentclass{article}
+\begin{document}
+% 内容
+\end{document}
+\end{lstlisting}
+
+\subsection{标题}
+\begin{lstlisting}[language=TeX]
+\title{标题}
+\author{作者}
+\date{\today}
+\maketitle
+\end{lstlisting}
+
+\subsection{生成目录}
+\begin{lstlisting}[language=TeX]
+\tableofcontents
+\end{lstlisting}
+
+\subsection{章节和节}
+\begin{lstlisting}[language=TeX]
+\section{章节标题}
+\subsection{子节标题}
+\subsubsection{小节标题}
+\end{lstlisting}
+
+\subsection{加粗文本}
+\begin{lstlisting}[language=TeX]
+\textbf{粗体文本}
+\end{lstlisting}
+
+\subsection{斜体文本}
+\begin{lstlisting}[language=TeX]
+\textit{斜体文本}
+\end{lstlisting}
+
+\subsection{下划线}
+\begin{lstlisting}[language=TeX]
+\underline{下划线文本}
+\end{lstlisting}
+
+\subsection{高亮文本}
+\begin{lstlisting}[language=TeX]
+\usepackage{soul}
+\hl{高亮文本}
+\end{lstlisting}
+
+\subsection{文本颜色}
+\begin{lstlisting}[language=TeX]
+\usepackage{xcolor}
+\textcolor{red}{红色文本}
+\end{lstlisting}
+
+
+
+
+\subsection{插入图片}
+\begin{lstlisting}[language=TeX]
+\usepackage{graphicx}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{image.png}
+\caption{图片标题}
+\label{fig:example}
+\end{figure}
+\end{lstlisting}
+
+\subsection{调整图片大小}
+\begin{lstlisting}[language=TeX]
+\includegraphics[width=0.3\textwidth]{image.png}
+\end{lstlisting}
+
+\subsection{行内公式}
+\begin{lstlisting}[language=TeX]
+这是一个行内公式 $a^2 + b^2 = c^2$。
+\end{lstlisting}
+
+\subsection{独立公式}
+\begin{lstlisting}[language=TeX]
+\begin{equation}
+E = mc^2
+\end{equation}
+\end{lstlisting}
+
+
+\subsection{插入脚注}
+\begin{lstlisting}[language=TeX]
+这是一个包含脚注的句子\footnote{这是脚注内容}。
+\end{lstlisting}
+
+\subsection{引用文献}
+\begin{lstlisting}[language=TeX]
+\usepackage{cite}
+\cite{reference_label}
+\end{lstlisting}
+
+\subsection{生成参考文献列表}
+\begin{lstlisting}[language=TeX]
+\bibliographystyle{plain}
+\bibliography{references}
+\end{lstlisting}
+
+
+
+\subsection{设置页面边距}
+\begin{lstlisting}[language=TeX]
+\usepackage[a4paper, margin=1in]{geometry}
+\end{lstlisting}
+
+
+
+
+
+
+
+\subsection{页眉和页脚}
+\begin{lstlisting}[language=TeX]
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{左页眉}
+\fancyhead[C]{中间页眉}
+\fancyhead[R]{右页眉}
+\end{lstlisting}
+
+\subsection{分页}
+\begin{lstlisting}[language=TeX]
+\newpage
+\end{lstlisting}
+
+
+
+\subsection{注释}
+\begin{lstlisting}[language=TeX]
+% 这是一个注释
+\end{lstlisting}
+
+
+
+\subsection{文本换行}
+\begin{lstlisting}[language=TeX]
+这是一个很长的文本，\newline
+使用 \texttt{\\} 进行换行。
+\end{lstlisting}
+
+\subsection{引用}
+\begin{lstlisting}[language=TeX]
+\begin{quote}
+这是一个引用的段落。
+\end{quote}
+\end{lstlisting}
+
+\subsection{代码块}
+\begin{lstlisting}[language=TeX]
+\begin{verbatim}
+这是一个代码块
+\end{verbatim}
+\end{lstlisting}
+
+
+
+
+\newpage
+\section{Github网址}
+\href{https://github.com/Eternity-JOE/Git}{https://github.com/Eternity-JOE/Git}
+
+\end{document}
