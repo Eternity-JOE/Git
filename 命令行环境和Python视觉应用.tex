@@ -1,0 +1,338 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{graphicx}
+\usepackage{listings} % 引入代码高亮包
+\usepackage{geometry} % 页面边距设置
+\geometry{a4paper, margin=1in}
+\usepackage{fancyhdr} % 页眉和页脚设置
+\usepackage{hyperref} % 插入超链接
+\usepackage{tcolorbox} % 创建框架
+\usepackage{pgfplots} % 绘制图形
+\usepackage{media9} % 插入视频
+\usepackage{xcolor} % 文本颜色
+\usepackage{soul} % 高亮文本
+\usepackage{float}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+ \centering
+    \includegraphics[width=0.5\linewidth]{1.png}
+    
+    \vspace{-1.5em} % 减少两张图片之间的垂直间距
+    
+    \includegraphics[width=0.5\linewidth]{中文全称横式2.png}
+    
+    \Huge
+    \textbf{命令行环境与Python实验报告} % 标题
+    
+    \vspace{1in} % 标题与作者之间的间距
+    
+    \Large
+    \songti 
+    姓名：乔宇恒
+    \\学号：23030021059
+    
+    \vspace{1in} % 作者与日期之间的间距
+    
+    \Large
+    \today 
+    
+    \vfill % 使下面的内容向页面底部对齐
+
+    \thispagestyle{empty} % 去除封面页的页码
+\end{titlepage}
+
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+\section{命令行环境}
+
+\subsection{使用 pgrep 来查找 pid}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{屏幕截图 2024-09-11 205304.png}
+    \caption{使用 pgrep 来查找 pid}
+\end{figure}
+
+\subsection{使用 pkill 结束进程而不需要手动输入 pid}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-11 205304.png}
+    \caption{使用 pkill 结束进程而不需要手动输入 pid}
+
+\end{figure}
+
+\subsection{wait 命令}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-11 210014.png}
+    \caption{wait 命令}
+\end{figure}
+
+\subsection{编写一个 bash 函数 pidwait}
+\begin{lstlisting}
+pidwait() {
+    local pid="$1"
+
+    # 检查 PID 是否为空
+    if [ -z "$pid" ]; then
+        echo "Usage: pidwait <pid>"
+        return 1
+    fi
+
+    # 一直循环，直到进程结束
+    while kill -0 "$pid" 2>/dev/null; do
+        sleep 1  # 每隔 1 秒检查一次进程状态
+    done
+
+    echo "Process $pid has ended."
+}
+
+\end{lstlisting}
+
+\subsection{创建别名}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{屏幕截图 2024-09-11 210617.png}
+    \caption{创建别名}
+\end{figure}
+
+\subsection{别名语法}
+\begin{lstlisting}
+    alias alias_name="command_to_alias arg1 arg2"
+\end{lstlisting}
+
+\subsection{文件操作}
+\begin{lstlisting}
+列出目录内容：ls
+切换目录：cd /path/to/directory
+查看当前目录：pwd
+创建目录：mkdir directory_name
+删除目录：rmdir directory_name 或 rm -r directory_name（删除非空目录）
+删除文件：rm file_name
+复制文件：cp source_file destination
+移动/重命名文件：mv source_file destination
+\end{lstlisting}
+
+\subsection{文件内容查看}
+\begin{lstlisting}
+查看文件内容：cat file_name
+分页查看文件内容：less file_name 或 more file_name
+显示文件头部：head file_name
+显示文件尾部：tail file_name
+\end{lstlisting}
+
+\subsection{系统信息}
+\begin{lstlisting}
+查看磁盘使用情况：df -h
+查看内存使用情况：free -h
+查看 CPU 信息：lscpu
+查看系统版本：uname -a
+\end{lstlisting}
+
+\subsection{进程管理}
+\begin{lstlisting}
+查看进程：ps aux 或 top
+杀死进程：kill process_id
+强制杀死进程：kill -9 process_id
+查找进程：pgrep process_name
+\end{lstlisting}
+
+\subsection{Windows系统中的文件和目录操作}
+\begin{lstlisting}
+列出目录内容：dir
+切换目录：cd path\to\directory
+查看当前目录：cd 或 echo %cd%
+创建目录：mkdir directory_name
+删除目录：rmdir directory_name 或 rd directory_name
+（删除非空目录使用 /s 选项）
+删除文件：del file_name
+复制文件：copy source_file destination
+移动/重命名文件：move source_file destination
+\end{lstlisting}
+
+\subsection{Windows系统中的进程管理}
+\begin{lstlisting}
+查看进程：tasklist
+杀死进程：taskkill /PID process_id
+强制杀死进程：taskkill /F /PID process_id
+查找进程：tasklist | findstr process_name
+\end{lstlisting}
+
+\newpage
+\section{Python}
+\subsection{Python简介}
+Python 是一种广泛使用的高级编程语言，以其简洁、易读的语法和强大的功能著称。它支持多种编程范式，包括面向对象、过程式和函数式编程，并且提供了丰富的标准库和第三方模块，使得开发各种应用程序变得高效且灵活。作为一种跨平台的解释型语言，Python 被广泛应用于数据分析、机器学习、Web 开发、自动化脚本等多个领域。
+
+
+\subsection{Python 基础操作}
+\subsubsection{正则表达式}
+\begin{lstlisting}
+import re
+
+result = re.match(r'\d+', '123abc')
+if result:
+    print(result.group())  # 输出: 123
+\end{lstlisting}
+从字符串的起始位置匹配正则表达式模式，如果匹配成功，返回一个匹配对象；否则返回 None。
+\subsubsection{变量赋值}
+\begin{lstlisting}
+x = 10
+y = 20
+z = x + y
+print(z)  # 输出: 30
+\end{lstlisting}
+
+\subsubsection{条件语句}
+\begin{lstlisting}
+x = 5
+if x > 0:
+    print("x 是正数")
+elif x == 0:
+    print("x 是零")
+else:
+    print("x 是负数")
+\end{lstlisting}
+
+\subsubsection{循环}
+\begin{lstlisting}
+for i in range(5):
+    print(i)  # 输出: 0 1 2 3 4
+\end{lstlisting}
+
+\subsubsection{列表操作}
+\begin{lstlisting}
+numbers = [1, 2, 3, 4, 5]
+print(numbers[0])  # 输出: 1
+numbers.append(6)
+print(numbers)  # 输出: [1, 2, 3, 4, 5, 6]
+\end{lstlisting}
+
+\subsubsection{字典操作}
+\begin{lstlisting}
+person = {'name': 'Alice', 'age': 25}
+print(person['name'])  # 输出: Alice
+person['age'] = 26
+print(person)  # 输出: {'name': 'Alice', 'age': 26}
+\end{lstlisting}
+
+\subsubsection{函数定义}
+\begin{lstlisting}
+def add(x, y):
+    return x + y
+
+result = add(5, 3)
+print(result)  # 输出: 8
+\end{lstlisting}
+
+\subsubsection{列表推导式}
+\begin{lstlisting}
+numbers = [1, 2, 3, 4, 5]
+squares = [n**2 for n in numbers]
+print(squares)  # 输出: [1, 4, 9, 16, 25]
+\end{lstlisting}
+
+\subsubsection{文件读取}
+\begin{lstlisting}
+with open('example.txt', 'r') as file:
+    content = file.read()
+    print(content)
+\end{lstlisting}
+
+\subsubsection{异常处理}
+\begin{lstlisting}
+try:
+    x = int(input("输入一个数字: "))
+    print(x)
+except ValueError:
+    print("输入无效，请输入数字")
+\end{lstlisting}
+
+\subsubsection{类与对象}
+\begin{lstlisting}
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def greet(self):
+        print(f"Hello, my name is {self.name}")
+
+p = Person('Alice', 25)
+p.greet()  # 输出: Hello, my name is Alice
+\end{lstlisting}
+
+\subsubsection{列表切片}
+\begin{lstlisting}
+numbers = [1, 2, 3, 4, 5]
+print(numbers[1:4])  # 输出: [2, 3, 4]
+\end{lstlisting}
+
+
+
+\subsubsection{集合操作}
+\begin{lstlisting}
+numbers = {1, 2, 3, 4}
+numbers.add(5)
+print(numbers)  # 输出: {1, 2, 3, 4, 5}
+\end{lstlisting}
+
+\subsubsection{迭代器}
+\begin{lstlisting}
+my_list = [1, 2, 3]
+iterator = iter(my_list)
+print(next(iterator))  # 输出: 1
+print(next(iterator))  # 输出: 2
+\end{lstlisting}
+
+\subsubsection{列表排序}
+\begin{lstlisting}
+numbers = [5, 3, 1, 4, 2]
+sorted_numbers = sorted(numbers)
+print(sorted_numbers)  # 输出: [1, 2, 3, 4, 5]
+\end{lstlisting}
+
+\subsection{Python视觉应用}
+\begin{lstlisting}
+from PIL import Image, ImageFilter
+
+# 打开图像
+image_path = "input_image.jpg"
+image = Image.open(image_path)
+
+# 1. 显示原始图像
+image.show()
+
+# 2. 灰度化处理
+gray_image = image.convert("L")
+gray_image.show()
+
+# 3. 图像缩放
+resized_image = image.resize((image.width // 2, image.height // 2))  # 将图像缩小一半
+resized_image.show()
+
+# 4. 边缘检测
+edges_image = image.filter(ImageFilter.FIND_EDGES)
+edges_image.show()
+
+# 5. 保存处理后的图像
+gray_image.save("output_gray_image.jpg")
+resized_image.save("output_resized_image.jpg")
+edges_image.save("output_edges_image.jpg")
+
+print("图像处理完成，处理后的图像已保存。")
+
+\end{lstlisting}
+
+
+\newpage
+\section{实验感悟}
+学习了命令行环境的基本操作，了解了Python语言入门基础知识和在视觉方面的应用
+\section{Github网址}
+\href{https://github.com/Eternity-JOE/Git}{https://github.com/Eternity-JOE/Git}
+
+\end{document}
