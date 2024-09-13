@@ -1,0 +1,421 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{graphicx}
+\usepackage{listings} % 引入代码高亮包
+\usepackage{geometry} % 页面边距设置
+\geometry{a4paper, margin=1in}
+\usepackage{fancyhdr} % 页眉和页脚设置
+\usepackage{hyperref} % 插入超链接
+\usepackage{float}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  columns=flexible,
+  keepspaces=true,
+  numbers=left,
+  numberstyle=\tiny,
+  breaklines=true,  % 自动换行
+  frame=single,
+  captionpos=b
+}
+
+\begin{document}
+
+\begin{titlepage}
+ \centering
+    \includegraphics[width=0.5\linewidth]{1.png}
+    
+    \vspace{-1.5em} % 减少两张图片之间的垂直间距
+    
+    \includegraphics[width=0.5\linewidth]{中文全称横式2.png}
+    
+    \Huge
+    \textbf{调试及性能分析，元编程，大杂烩及PyTorch入门} % 标题
+    
+    \vspace{1in} % 标题与作者之间的间距
+    
+    \Large
+    \songti 
+    姓名：乔宇恒
+    \\学号：23030021059
+    
+    \vspace{1in} % 作者与日期之间的间距
+    
+    \Large
+    \today 
+    
+    \vfill % 使下面的内容向页面底部对齐
+
+    \thispagestyle{empty} % 去除封面页的页码
+\end{titlepage}
+
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+\section{调试及性能分析}
+
+\subsection{使用journalctl命令}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{屏幕截图 2024-09-13 093118.png}
+    \caption{使用journalctl命令}
+\end{figure}
+
+
+\subsection{打印两处代码之间的时间}
+\begin{lstlisting}
+import time, random
+n = random.randint(1, 10) * 100
+
+# 获取当前时间
+start = time.time()
+
+# 执行一些操作
+print("Sleeping for {} ms".format(n))
+time.sleep(n/1000)
+
+# 比较当前时间和起始时间
+print(time.time() - start)
+\end{lstlisting}
+
+
+
+\subsection{使用 cProfile进行性能分析}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{屏幕截图 2024-09-13 105603.png}
+    \caption{使用 cProfile进行性能分析}
+\end{figure}
+\begin{lstlisting}
+import cProfile
+
+def profile_sorting_algorithms():
+    arr1 = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+    arr2 = arr1.copy()
+
+    print("Profiling insertion sort:")
+    cProfile.run('insertion_sort(arr1)', 'insertion_sort_stats')
+
+    print("\nProfiling quick sort:")
+    cProfile.run('quick_sort(arr2)', 'quick_sort_stats')
+
+profile_sorting_algorithms()
+import cProfile
+import pstats
+import random
+
+# 定义插入排序算法
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+# 定义快速排序算法
+def quick_sort(arr):
+    def partition(low, high):
+        pivot = arr[high]
+        i = low - 1
+        for j in range(low, high):
+            if arr[j] < pivot:
+                i += 1
+                arr[i], arr[j] = arr[j], arr[i]
+        arr[i + 1], arr[high] = arr[high], arr[i + 1]
+        return i + 1
+
+    def _quick_sort(low, high):
+        if low < high:
+            pi = partition(low, high)
+            _quick_sort(low, pi - 1)
+            _quick_sort(pi + 1, high)
+
+    _quick_sort(0, len(arr) - 1)
+
+# 定义性能分析函数
+def profile_sorting_algorithms():
+    # 生成随机数据
+    array_size = 1000
+    data_insertion = [random.randint(0, 10000) for _ in range(array_size)]
+    data_quick = data_insertion.copy()
+
+    # 性能分析插入排序
+    print("Profiling insertion sort:")
+    cProfile.runctx('insertion_sort(data_insertion)', globals(), locals(), 'insertion_sort_stats')
+
+    # 性能分析快速排序
+    print("\nProfiling quick sort:")
+    cProfile.runctx('quick_sort(data_quick)', globals(), locals(), 'quick_sort_stats')
+
+# 运行性能分析
+profile_sorting_algorithms()
+
+# 打印性能分析结果
+def print_profile_stats(filename):
+    p = pstats.Stats(filename)
+    p.sort_stats('cumulative').print_stats(10)
+
+print_profile_stats('insertion_sort_stats')
+print_profile_stats('quick_sort_stats')
+\end{lstlisting}
+
+
+
+
+\subsection{使用 pstats 模块来查看详细信息}
+\begin{lstlisting}
+import pstats
+
+def print_profile_stats(filename):
+    p = pstats.Stats(filename)
+    p.sort_stats('cumulative').print_stats(10)
+
+print_profile_stats('insertion_sort_stats')
+print_profile_stats('quick_sort_stats')
+\end{lstlisting}
+
+
+
+\newpage
+\section{元编程}
+\subsection{C++元编程}
+\begin{lstlisting}
+#include <iostream>
+
+// 模板元编程计算阶乘
+template<int N>
+struct Factorial {
+    static const int value = N * Factorial<N - 1>::value;
+};
+
+// 基础情况，0! = 1
+template<>
+struct Factorial<0> {
+    static const int value = 1;
+};
+
+int main() {
+
+}
+
+\end{lstlisting}
+
+
+
+
+
+\section{大杂烩}
+\subsection{Markdown}
+\begin{lstlisting}
+    # 项目文档
+
+## 介绍
+
+这是一个示例 Markdown 文档，展示了如何使用 Markdown 进行文档编写。Markdown 是一种轻量级的标记语言，广泛用于编写文档和 README 文件。
+
+## 目录
+
+1. [介绍](#介绍)
+2. [安装指南](#安装指南)
+3. [使用示例](#使用示例)
+4. [表格示例](#表格示例)
+5. [代码示例](#代码示例)
+6. [图片示例](#图片示例)
+
+## 安装指南
+
+### 安装步骤
+
+
+
+## 使用示例
+
+
+\end{lstlisting}
+\subsection{修改键位映射}
+打开 PowerToys，进入 Keyboard Manager 选项。
+
+点击 Remap a key，选择你要重新映射的按键和目标按键。
+
+保存更改后，映射立即生效，无需重启。
+
+\subsection{备份}
+摘抄：有效备份方案的几个核心特性是：版本控制，删除重复数据，以及安全性。对备份的数据实施版本控制保证了用户可以从任何记录过的历史版本中恢复数据。在备份中检测并删除重复数据，使其仅备份增量变化可以减少存储开销。在安全性方面，作为用户，你应该考虑别人需要有什么信息或者工具才可以访问或者完全删除你的数据及备份。
+\subsection{API（应用程序接口）}
+摘抄：这些 API 大多具有类似的格式。它们的结构化 URL 通常使用 api.service.com 作为根路径，用户可以访问不同的子路径来访问需要调用的操作，以及添加查询参数使 API 返回符合查询参数条件的结果。
+
+\subsection{常见命令行标志参数及模式}
+
+\subsubsection{‘--version’}
+显示当前工具或程序的版本信息。
+\begin{lstlisting}[language=bash]
+# 示例：
+git --version
+python --version
+\end{lstlisting}
+
+\subsubsection{‘--help’ 或 ‘-h’}
+显示帮助信息或命令的用法，包括可用的选项、标志及其描述。
+\begin{lstlisting}[language=bash]
+# 示例：
+python --help
+\end{lstlisting}
+
+\subsubsection{‘--verbose’}
+显示详细的操作过程信息，用于调试或获取更多输出。
+\begin{lstlisting}[language=bash]
+# 示例：
+tar --verbose -czf archive.tar.gz directory/
+\end{lstlisting}
+
+\subsubsection{‘--quiet’ 或 ‘-q’}
+抑制大部分输出，只显示必要的信息或错误消息。
+\begin{lstlisting}[language=bash]
+# 示例：
+make --quiet
+\end{lstlisting}
+
+\subsubsection{‘--force’ 或 ‘-f’}
+强制执行某项操作，即使这可能会覆盖文件或产生不必要的风险。
+\begin{lstlisting}[language=bash]
+# 示例：
+rm --force file.txt
+\end{lstlisting}
+
+\subsubsection{‘--dry-run’}
+模拟执行命令，但不实际执行任何操作，用于测试命令的影响。
+\begin{lstlisting}[language=bash]
+# 示例：
+rsync --dry-run -av source/ destination/
+\end{lstlisting}
+
+\subsubsection{‘--output’ 或 ‘-o’}
+指定输出文件或目录。
+\begin{lstlisting}[language=bash]
+# 示例：
+gzip --output=file.gz file.txt
+\end{lstlisting}
+
+\subsubsection{‘--input’ 或 ‘-i’}
+指定输入文件或目录。
+\begin{lstlisting}[language=bash]
+# 示例：
+grep --input=file.txt pattern
+\end{lstlisting}
+
+\subsection{VPN}
+摘抄：
+使用了 VPN 的你对于互联网而言，最好的情况 下也就是换了一个网络供应商（ISP）。所有你发出的流量看上去来源于 VPN 供应商的网络而不是你的“真实”地址，而你实际接入的网络只能看到加密的流量。
+
+曾经发生过 VPN 提供商错误使用弱加密或者直接禁用加密的先例。另外，有些恶意的或者带有投机心态的供应商会记录和你有关的所有流量，并很可能会将这些信息卖给第三方。找错一家 VPN 经常比一开始就不用 VPN 更危险。
+
+\subsection{开机引导}
+电源自检（POST）:
+
+当计算机开机时，电源会初始化所有硬件组件。
+计算机的 BIOS（或 UEFI）会执行自检程序（POST），检查硬件设备是否正常工作。
+BIOS/UEFI 引导:
+
+BIOS: 基本输入输出系统（BIOS）是旧式的固件，负责启动过程的初始阶段。
+
+UEFI: 统一可扩展固件接口（UEFI）是现代替代 BIOS 的固件，提供更先进的功能。
+
+BIOS/UEFI 查找引导设备（如硬盘、SSD、USB 驱动器）并加载引导程序。
+
+加载引导程序:
+
+BIOS/UEFI 从引导设备加载引导程序（如引导扇区中的引导加载程序）。
+
+引导程序（Bootloader）负责将操作系统内核加载到内存中。常见的引导程序有 GRUB（用于 Linux）、Windows Boot Manager（用于 Windows）。
+
+加载操作系统内核:
+
+引导程序将操作系统内核加载到内存中并将控制权移交给它。
+
+操作系统内核初始化系统的各种组件，如驱动程序、系统服务等。
+
+启动系统服务:
+
+内核加载并启动系统服务和后台进程，使系统能够提供用户界面和应用程序功能。
+
+用户登录:
+
+操作系统完成启动后，呈现登录界面，用户可以输入用户名和密码登录系统。
+
+\section{PyTorch入门}
+\subsection{导入PyTorch}
+\begin{lstlisting}
+import torch
+import torchvision
+
+\end{lstlisting}
+
+
+\subsection{创建张量}
+\begin{lstlisting}
+# 从列表创建张量
+a = torch.tensor([1, 2, 3, 4])
+print(a)  # 输出: tensor([1, 2, 3, 4])
+
+# 创建指定形状的零张量
+b = torch.zeros(2, 3)
+print(b)  # 输出: tensor([[0., 0., 0.],
+                      [0., 0., 0.]])
+
+# 创建指定形状的随机张量
+c = torch.rand(2, 3)
+print(c)  # 输出: tensor([[0.8122, 0.2394, 0.7886],
+                      [0.4924, 0.8756, 0.3412]])
+
+\end{lstlisting}
+
+\subsection{张量操作}
+\begin{lstlisting}
+# 从列表创建张量
+a = torch.tensor([1, 2, 3, 4])
+print(a)  # 输出: tensor([1, 2, 3, 4])
+
+# 创建指定形状的零张量
+b = torch.zeros(2, 3)
+print(b)  # 输出: tensor([[0., 0., 0.],
+                      [0., 0., 0.]])
+
+# 创建指定形状的随机张量
+c = torch.rand(2, 3)
+print(c)  # 输出: tensor([[0.8122, 0.2394, 0.7886],
+                      [0.4924, 0.8756, 0.3412]])
+
+\end{lstlisting}
+\subsection{定义神经网络}
+\begin{lstlisting}
+import torch.nn as nn
+import torch.optim as optim
+
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super(SimpleNet, self).__init__()
+        self.fc1 = nn.Linear(10, 5)  # 全连接层，从10个输入到5个输出
+        self.fc2 = nn.Linear(5, 1)   # 全连接层，从5个输入到1个输出
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))  # 激活函数 ReLU
+        x = self.fc2(x)
+        return x
+
+# 实例化模型
+model = SimpleNet()
+print(model)
+
+\end{lstlisting}
+\newpage
+\section{实验感悟}
+学习了调试及性能分析，了解到C++中模板类可叫做元编程，了解了修改键位映射、备份的重要性、Markdown文本编辑器、API的用处、常见命令行操作，VPN的安全性、开机引导，以及PyTorch的入门，如何构建神经网络，训练模型。
+\section{Github网址}
+\href{https://github.com/Eternity-JOE/Git}{https://github.com/Eternity-JOE/Git}
+
+\end{document}
+
